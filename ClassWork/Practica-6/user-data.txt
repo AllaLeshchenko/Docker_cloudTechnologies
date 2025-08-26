@@ -1,0 +1,15 @@
+#!/bin/bash
+
+dnf update -y
+amazon-linux-extras enable docker
+dnf install -y docker
+systemctl start docker
+systemctl enable docker
+usermod -aG docker $USER
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+dnf install -y git
+cd /opt/
+git clone https://github.com/it-career-hub/example-voting-app.git
+cd example-voting-app
+docker-compose up -d
