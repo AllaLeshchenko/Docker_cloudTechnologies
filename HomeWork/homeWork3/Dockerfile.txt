@@ -1,0 +1,15 @@
+# Базовый образ с Node.js
+FROM node:18-slim
+
+# Устанавливаем рабочую директорию внутри контейнера
+WORKDIR /app
+
+# Копируем package.json и app.js
+COPY package.json ./
+COPY app.js ./
+
+# Устанавливаем зависимости
+RUN npm install --only=production
+
+# Указываем команду для запуска
+CMD ["npm", "start"]

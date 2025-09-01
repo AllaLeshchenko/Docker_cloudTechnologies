@@ -1,0 +1,49 @@
+https://eu-north-1.signin.aws.amazon.com/oauth?response_type=code&client_id=arn%3Aaws%3Asignin%3A%3A%3Aconsole%2Fec2-tb&redirect_uri=https%3A%2F%2Fconsole.aws.amazon.com%2Fec2%3FhashArgs%3D%2523%26isauthcode%3Dtrue%26oauthStart%3D1756192783176%26state%3DhashArgsFromTB_eu-north-1_61fe541ffb56deda&forceMobileLayout=0&forceMobileApp=0&code_challenge=Gli_rprfO6T4HdJ0zFUKKdOTfpZT2wMq5s-x1OGvleo&code_challenge_method=SHA-256
+
+
+ID:
+600627349446
+USERNAME:
+aws_lab_student
+password:
+IJtY7@ZJ
+
+
+
+#!/bin/bash
+
+dnf update -y
+amazon-linux-extras enable docker
+dnf install -y docker
+systemctl start docker
+systemctl enable dokcer
+usermod -aG docker $USER
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+dnf install -y git
+cd /opt/
+git clone https://github.com/it-career-hub/example-voting-app.git
+cd example-voting-app
+docker-compose up -d
+
+sudo grep -i error /var/log/cloud-init-output.log
+
+sudo less /var/log/cloud-init-output.log
+
+
+
+#!/bin/bash
+
+dnf update -y
+amazon-linux-extras enable docker
+dnf install -y docker
+systemctl start docker
+systemctl enable docker
+usermod -aG docker $USER
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+dnf install -y git
+cd /opt/
+git clone https://github.com/it-career-hub/example-voting-app.git
+cd example-voting-app
+docker-compose up -d

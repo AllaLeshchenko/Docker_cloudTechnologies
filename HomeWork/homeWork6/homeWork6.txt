@@ -1,0 +1,82 @@
+1. Создание security group
+Команда для создания security group с именем 131224-wdm_leshchenko-sg и описанием:
+
+aws ec2 create-security-group --group-name 131224-wdm_leshchenko-sg --description "Security Group for MySQL and HTTP and SSH"
+
+
+2. Добавление правил входящего трафика (inbound rules)
+Добавление правила для порта 3306 (MySQL):
+
+aws ec2 authorize-security-group-ingress --group-id sg-0de6a2a090455204f --protocol tcp --port 3306 --cidr 0.0.0.0/0
+
+Добавление правила для порта 443 (HTTPS):
+aws ec2 authorize-security-group-ingress --group-id sg-0de6a2a090455204f --protocol tcp --port 443 --cidr 0.0.0.0/0
+
+
+
+3. Добавление правила SSH (порт 22) через AWS Management Console
+Зашла в раздел EC2 → Security Groups.
+Выбрала свою security group 131224-wdm_leshchenko-sg.
+Нажала Edit inbound rules.
+Добавила правило:
+Тип: SSH
+Источник (Source): My IP (мой IP: 178.6.51.35/32)
+Описание: SSH My IP
+Сохранила изменения.
+
+
+4. Проверка правил security group
+Выполнила команду для вывода правил:
+
+aws ec2 describe-security-groups --group-ids sg-0de6a2a090455204f --query "SecurityGroups[*].IpPermissions" --output json
+
+Результат:
+[
+    [
+        {
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+                {
+                    "CidrIp": "178.6.51.35/32"
+                }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+        },
+        {
+            "IpProtocol": "tcp",
+            "FromPort": 3306,
+            "ToPort": 3306,
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+                {
+                    "CidrIp": "0.0.0.0/0"
+                }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+        },
+        {
+            "IpProtocol": "tcp",
+            "FromPort": 443,
+            "ToPort": 443,
+            "UserIdGroupPairs": [],
+            "IpRanges": [
+                {
+                    "CidrIp": "0.0.0.0/0"
+                }
+            ],
+            "Ipv6Ranges": [],
+            "PrefixListIds": []
+        }
+    ]
+]
+
+
+5. Удаление security group
+После выполнения задания, чтобы удалить security group и все её правила, выполнила команду:
+
+aws ec2 delete-security-group --group-id sg-0de6a2a090455204f
